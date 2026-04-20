@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhagya Tailor - Making you Shine</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #5e17eb;
+            --primary-light: #f4eeff;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --border: #dfe6e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #fcfcfc;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .insta-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .insta-link:hover {
+            opacity: 0.8;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* Billing Section */
+        .billing-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        .row-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 0.8fr 1fr 1fr 1fr 40px;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 2px solid var(--primary);
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .product-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 0.8fr 1fr 1fr 1fr 40px;
+            gap: 10px;
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .product-row:hover {
+            background-color: #f9f9ff;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .img-preview {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: none;
+            border: 1px solid var(--border);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn-upload {
+            font-size: 0.75rem;
+            padding: 5px;
+            background: #eee;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+        .remove-btn {
+            color: #ff7675;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Summary Section */
+        .summary-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .total-item {
+            display: flex;
+            gap: 20px;
+            font-size: 1.1rem;
+        }
+
+        .total-label {
+            color: var(--text-light);
+        }
+
+        .total-value {
+            font-weight: 700;
+            width: 120px;
+            text-align: right;
+        }
+
+        .original-total {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+
+        .final-total {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .savings-tag {
+            background: #e8fcef;
+            color: #27ae60;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Buttons */
+        .action-btns {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-add {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn-add:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-download {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(94, 23, 235, 0.2);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 23, 235, 0.3);
+        }
+
+        /* Contact & Payment */
+        .contact-payment {
+            margin-top: 50px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+        }
+
+        .payment-info {
+            margin-bottom: 20px;
+        }
+
+        .payment-info p {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .whatsapp-info {
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 768px) {
+            .row-header {
+                display: none;
+            }
+            .product-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                margin-bottom: 15px;
+                padding: 20px;
+            }
+            .product-row > * {
+                display: flex;
+                flex-direction: column;
+            }
+            .product-row > *::before {
+                content: attr(data-label);
+                font-size: 0.7rem;
+                font-weight: 700;
+                color: var(--primary);
+                margin-bottom: 4px;
+                text-transform: uppercase;
+            }
+            .product-row .product-desc { grid-column: span 2; }
+            .product-row .remove-btn { 
+                grid-column: span 2; 
+                text-align: right; 
+                border-top: 1px solid var(--border); 
+                padding-top: 10px;
+            }
+            .summary-container {
+                align-items: center;
+            }
+        }
+
+        /* Print styles */
+        #invoice-print-area {
+            background: white;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="invoice-content">
+        <!-- Header -->
+        <header>
+            <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">Instagram: @bhagya.tailor</a>
+            <h1>Bhagya Tailor</h1>
+            <p class="tagline">Making you Shine</p>
+        </header>
+
+        <!-- WhatsApp Header -->
+        <div style="text-align: center; margin-bottom: 20px; font-weight: 600;">
+            WhatsApp: 6370874791
+        </div>
+
+        <!-- Row Header -->
+        <div class="row-header">
+            <div>Description</div>
+            <div>Image</div>
+            <div>Qty</div>
+            <div>Price (₹)</div>
+            <div>Disc %</div>
+            <div>Final (₹)</div>
+            <div></div>
+        </div>
+
+        <!-- Product Rows Container -->
+        <div id="product-list">
+            <!-- First Row Default -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-btns">
+            <button class="btn btn-add" onclick="addRow()">+ Add Product</button>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-container">
+            <div class="total-item">
+                <span class="total-label">Total Original:</span>
+                <span class="total-value original-total" id="total-original">₹0</span>
+            </div>
+            <div id="savings-container" class="savings-tag">
+                You Saved: ₹<span id="total-savings">0</span>
+            </div>
+            <div class="total-item">
+                <span class="total-label" style="color: var(--primary); font-weight: 700;">Grand Total:</span>
+                <span class="total-value final-total" id="grand-total">₹0</span>
+            </div>
+        </div>
+
+        <!-- Payment & Contact -->
+        <div class="contact-payment">
+            <div class="payment-info">
+                <p>Payment via QR Code</p>
+                <img src="https://github.com/Rudra-G-23/breast-cancer-prediction-app/blob/main/assets/rudra.png?raw=true" alt="Payment QR" class="qr-code">
+            </div>
+            <div class="whatsapp-info">
+                Contact: 6370874791
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Thank You ❤️</p>
+            <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">Follow us on Instagram</a>
+        </footer>
+    </div>
+
+    <!-- Sticky Export Button -->
+    <div style="text-align: center; margin: 40px 0;">
+        <button class="btn btn-download" onclick="downloadPDF()">Download as PDF</button>
+    </div>
+
+    <script>
+        const productList = document.getElementById('product-list');
+
+        function addRow() {
+            const rowId = Date.now();
+            const row = document.createElement('div');
+            row.className = 'product-row';
+            row.id = `row-${rowId}`;
+            row.innerHTML = `
+                <div class="product-desc" data-label="Description">
+                    <input type="text" placeholder="e.g. Silk Blouse" oninput="calculate()">
+                </div>
+                <div data-label="Image">
+                    <div class="file-input-wrapper">
+                        <span class="btn-upload">Select Image</span>
+                        <input type="file" accept="image/*" onchange="previewImage(this, '${rowId}')">
+                    </div>
+                    <img id="prev-${rowId}" class="img-preview" alt="preview">
+                </div>
+                <div data-label="Qty">
+                    <input type="number" value="1" min="1" class="qty" oninput="calculate()">
+                </div>
+                <div data-label="Original Price">
+                    <input type="number" placeholder="0" class="orig-price" oninput="calculateByOriginal('${rowId}')">
+                </div>
+                <div data-label="Discount %">
+                    <input type="number" placeholder="0" class="disc-perc" oninput="calculateByOriginal('${rowId}')">
+                </div>
+                <div data-label="Final Price">
+                    <input type="number" placeholder="0" class="final-price" oninput="calculateByFinal('${rowId}')">
+                </div>
+                <div class="remove-btn" onclick="removeRow('${rowId}')">×</div>
+            `;
+            productList.appendChild(row);
+            calculate();
+        }
+
+        function removeRow(id) {
+            const row = document.getElementById(`row-${id}`);
+            if (productList.children.length > 1) {
+                row.remove();
+                calculate();
+            } else {
+                // Just clear values if it's the last row
+                row.querySelectorAll('input').forEach(i => i.value = i.type === 'number' ? (i.className === 'qty' ? 1 : 0) : '');
+                const img = document.getElementById(`prev-${id}`);
+                img.style.display = 'none';
+                calculate();
+            }
+        }
+
+        function previewImage(input, id) {
+            const preview = document.getElementById(`prev-${id}`);
+            const uploadBtn = input.previousElementSibling;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    uploadBtn.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function calculateByOriginal(id) {
+            const row = document.getElementById(`row-${id}`);
+            const orig = parseFloat(row.querySelector('.orig-price').value) || 0;
+            const disc = parseFloat(row.querySelector('.disc-perc').value) || 0;
+            const finalInput = row.querySelector('.final-price');
+            
+            const finalVal = orig - (orig * (disc / 100));
+            finalInput.value = finalVal.toFixed(2);
+            calculate();
+        }
+
+        function calculateByFinal(id) {
+            const row = document.getElementById(`row-${id}`);
+            const final = parseFloat(row.querySelector('.final-price').value) || 0;
+            const disc = parseFloat(row.querySelector('.disc-perc').value) || 0;
+            const origInput = row.querySelector('.orig-price');
+            
+            if (disc < 100) {
+                const origVal = final / (1 - (disc / 100));
+                origInput.value = origVal.toFixed(2);
+            }
+            calculate();
+        }
+
+        function calculate() {
+            let totalOrig = 0;
+            let totalFinal = 0;
+
+            const rows = document.querySelectorAll('.product-row');
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.qty').value) || 0;
+                const orig = parseFloat(row.querySelector('.orig-price').value) || 0;
+                const final = parseFloat(row.querySelector('.final-price').value) || 0;
+
+                totalOrig += (orig * qty);
+                totalFinal += (final * qty);
+            });
+
+            const savings = totalOrig - totalFinal;
+
+            document.getElementById('total-original').innerText = `₹${totalOrig.toFixed(2)}`;
+            document.getElementById('grand-total').innerText = `₹${totalFinal.toFixed(2)}`;
+            
+            const savingsContainer = document.getElementById('savings-container');
+            if (savings >= 50) {
+                savingsContainer.style.display = 'inline-block';
+                document.getElementById('total-savings').innerText = savings.toFixed(2);
+            } else {
+                savingsContainer.style.display = 'none';
+            }
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const element = document.getElementById('invoice-content');
+            
+            // Temporary styling for PDF export to ensure it looks clean
+            const originalWidth = element.style.width;
+            element.style.width = '800px';
+            
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`Bhagya_Tailor_Invoice_${Date.now()}.pdf`);
+            
+            element.style.width = originalWidth;
+        }
+
+        // Initialize with one row
+        window.onload = addRow;
+    </script>
+</body>
+</html>
