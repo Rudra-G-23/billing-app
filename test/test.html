@@ -101,6 +101,34 @@
             font-weight: 500;
             text-decoration: none;
         }
+    
+        /* ── SPACING ── */
+        .product-card {
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .price-row {
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .item-total-bar {
+            margin-top: 14px;
+            padding-top: 12px;
+        }
+
+        .total-row {
+            padding: 10px 0;
+        }
+
+        .grand-total-row {
+            padding: 16px 0 6px;
+        }
+
+        .contact-card {
+            padding: 24px 18px;
+        }
 
         /* ── INVOICE FORM ── */
         .page {
@@ -523,7 +551,8 @@
         <div class="contact-images">
             <div class="contact-img-block">
                 <span>Contact</span>
-                <img src="assets/contact.jpeg" alt="Contact QR" onerror="this.style.display='none'">
+                <img src="https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/contact.jpeg" alt="Contact QR" crossorigin="anonymous">
+            </div>
             </div>
             <div class="contact-img-block">
                 <span>Payment QR</span>
@@ -972,8 +1001,8 @@ async function drawInvoiceToCanvas() {
 
     // Load QR images fresh via fetch
     const [payEl, conEl] = await Promise.all([
-        fetchLocalImg('assets/payment.jpeg'),
-        fetchLocalImg('assets/contact.jpeg'),
+        fetchLocalImg('https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/payment.jpeg'),
+        fetchLocalImg('https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/contact.jpeg'),
     ]);
 
     // Load product images (already base64 in memory)
