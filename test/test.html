@@ -717,7 +717,7 @@ function recalcRow(id) {
     const qty = parseFloat(c.querySelector('.qty').value) || 0;
     const final = parseFloat(c.querySelector('.final-price').value) || 0;
     const el = document.getElementById(`item-total-${id}`);
-    if (el) el.textContent = 'Rs.' + (qty * final).toFixed(2);
+    if (el) el.textContent = (qty * final).toFixed(2);
     recalcAll();
 }
 
@@ -731,8 +731,8 @@ function recalcAll() {
         totFinal += final * qty;
     });
     const savings = totOrig - totFinal;
-    document.getElementById('total-orig').textContent  = 'Rs.' + totOrig.toFixed(2);
-    document.getElementById('grand-total').textContent = 'Rs.' + totFinal.toFixed(2);
+    document.getElementById('total-orig').textContent  = totOrig.toFixed(2);
+    document.getElementById('grand-total').textContent = totFinal.toFixed(2);
     const pill = document.getElementById('savings-pill');
     if (savings >= 10 && totOrig > 0) {
         pill.style.display = 'block';
@@ -862,10 +862,10 @@ async function generatePDFDoc() {
         }
 
         text(String(r.qty),           cols.qty,   y+8, 8, ink);
-        text('Rs.'+r.orig.toFixed(0), cols.orig,  y+8, 8, muted);
+        text(r.orig.toFixed(0), cols.orig,  y+8, 8, muted);
         text(r.disc > 0 ? r.disc+'%' : '-', cols.disc, y+8, 8, r.disc>0 ? [239,68,68] : muted);
-        text('Rs.'+r.final.toFixed(0),cols.final, y+8, 8, ink);
-        text('Rs.'+itemTotal,          cols.total, y+8, 8, purple, 'left', 'bold');
+        text(r.final.toFixed(0),cols.final, y+8, 8, ink);
+        text(itemTotal,          cols.total, y+8, 8, purple, 'left', 'bold');
 
         // Bottom border
         line(margin, y+rowH, margin+contentW, y+rowH, border);
@@ -1147,10 +1147,10 @@ async function drawInvoiceToCanvas() {
             t(r.desc||'-', cx.desc, ry, FS, INK, 'left','400');
         }
         t(String(r.qty),              cx.qty,  ry, FS, INK, 'center','400');
-        t('Rs.'+r.orig.toFixed(0),    cx.orig, ry, FS, MU,  'center','400');
+        t(+r.orig.toFixed(0),    cx.orig, ry, FS, MU,  'center','400');
         t(r.disc>0?r.disc+'%':'-',    cx.disc, ry, FS, r.disc>0?RE:MU,'center','600');
-        t('Rs.'+r.final.toFixed(0),   cx.fin,  ry, FS, INK, 'center','400');
-        t('Rs.'+(r.qty*r.final).toFixed(2), cx.tot, ry, FS, PU,'center','700');
+        t(r.final.toFixed(0),   cx.fin,  ry, FS, INK, 'center','400');
+        t((r.qty*r.final).toFixed(2), cx.tot, ry, FS, PU,'center','700');
 
         y += rH + 2*S;
     });
