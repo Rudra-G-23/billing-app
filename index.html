@@ -2,554 +2,1233 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Bhagya Tailor - Making you Shine</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- PDF Generation Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         :root {
-            --primary: #5e17eb;
-            --primary-light: #f4eeff;
-            --text-dark: #2d3436;
-            --text-light: #636e72;
-            --border: #dfe6e9;
+            --p: #5e17eb;
+            --p-light: #ede8ff;
+            --p-mid: #7c3aed;
+            --ink: #1a1a2e;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --surface: #f9f7ff;
+            --white: #ffffff;
+            --green: #059669;
+            --red: #ef4444;
+            --radius: 12px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
-            background-color: #fcfcfc;
-            line-height: 1.6;
-            padding-bottom: 50px;
+            font-family: 'DM Sans', sans-serif;
+            background: #f4f0ff;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 100px;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header Section */
-        header {
+        /* ── HEADER ── */
+        .header-wrap {
+            background: linear-gradient(135deg, #5e17eb 0%, #7c3aed 60%, #a855f7 100%);
+            padding: 28px 20px 24px;
             text-align: center;
-            padding: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-wrap::before {
+            content: '';
+            position: absolute;
+            top: -40px; right: -40px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .header-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; left: -20px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
         }
 
-        .insta-link {
-            display: inline-block;
-            color: var(--primary);
+        .insta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            transition: opacity 0.2s;
+            margin-bottom: 14px;
+            backdrop-filter: blur(4px);
         }
 
-        .insta-link:hover {
-            opacity: 0.8;
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
+        .shop-name {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 2.2rem;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
-            color: var(--text-light);
-            font-size: 1rem;
-            margin-top: 5px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: 4px;
+            letter-spacing: 1px;
         }
 
-        /* Billing Section */
-        .billing-table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        }
-
-        .row-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 0.8fr 1fr 1fr 1fr 40px;
-            gap: 10px;
-            padding: 10px;
-            border-bottom: 2px solid var(--primary);
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-
-        .product-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 0.8fr 1fr 1fr 1fr 40px;
-            gap: 10px;
-            padding: 15px 10px;
-            border-bottom: 1px solid var(--border);
+        .wa-chip {
+            display: inline-flex;
             align-items: center;
-            transition: background 0.2s;
+            gap: 6px;
+            margin-top: 14px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+    
+        /* ── SPACING ── */
+        .product-card {
+            padding: 18px;
+            margin-bottom: 14px;
         }
 
-        .product-row:hover {
-            background-color: #f9f9ff;
+        .price-row {
+            gap: 12px;
+            margin-top: 10px;
         }
 
-        input {
-            width: 100%;
-            padding: 8px;
+        .item-total-bar {
+            margin-top: 14px;
+            padding-top: 12px;
+        }
+
+        .total-row {
+            padding: 10px 0;
+        }
+
+        .grand-total-row {
+            padding: 16px 0 6px;
+        }
+
+        .contact-card {
+            padding: 24px 18px;
+        }
+
+        /* ── INVOICE FORM ── */
+        .page {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+
+
+        /* Section heading */
+        .section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--p);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 18px 0 8px;
+        }
+
+        /* ── PRODUCT CARD ── */
+        .product-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 6px rgba(94,23,235,0.07);
             border: 1px solid var(--border);
-            border-radius: 4px;
+        }
+
+        .card-top {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .field-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .inp {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 11px;
             font-family: inherit;
             font-size: 0.9rem;
+            color: var(--ink);
+            background: #fafafa;
+            -webkit-appearance: none;
         }
+        .inp:focus { outline: none; border-color: var(--p); background: white; }
 
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .img-preview {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 4px;
-            display: none;
-            border: 1px solid var(--border);
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .file-input-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .btn-upload {
-            font-size: 0.75rem;
-            padding: 5px;
-            background: #eee;
-            border-radius: 4px;
-            text-align: center;
-            cursor: pointer;
-            display: block;
-        }
-
-        .remove-btn {
-            color: #ff7675;
-            cursor: pointer;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Summary Section */
-        .summary-container {
-            margin-top: 40px;
+        /* Image upload */
+        .img-upload-area {
+            width: 76px;
+            height: 76px;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
-        }
-
-        .total-item {
-            display: flex;
-            gap: 20px;
-            font-size: 1.1rem;
-        }
-
-        .total-label {
-            color: var(--text-light);
-        }
-
-        .total-value {
-            font-weight: 700;
-            width: 120px;
-            text-align: right;
-        }
-
-        .original-total {
-            text-decoration: line-through;
-            color: var(--text-light);
-        }
-
-        .final-total {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .savings-tag {
-            background: #e8fcef;
-            color: #27ae60;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        /* Buttons */
-        .action-btns {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
+            align-items: center;
             justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #fafafa;
+        }
+        .img-upload-area input[type=file] {
+            position: absolute; inset: 0;
+            opacity: 0; cursor: pointer;
+            width: 100%; height: 100%;
+        }
+        .img-upload-area .upload-icon { font-size: 1.4rem; }
+        .img-upload-area .upload-text {
+            font-size: 0.6rem; color: var(--muted);
+            text-align: center; margin-top: 2px;
+            pointer-events: none;
+        }
+        .img-upload-area img.thumb {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; display: none;
+            border-radius: 8px;
         }
 
-        .btn {
-            padding: 12px 25px;
+        /* Price row */
+        .price-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 0.7fr;
+            gap: 8px;
+        }
+
+        /* Item total */
+        .item-total-bar {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        .item-total-bar .it-label { color: var(--muted); }
+        .item-total-bar .it-val {
+            font-weight: 700;
+            color: var(--p);
+            font-size: 1rem;
+        }
+
+        /* Remove btn — full-width at bottom of card, always visible */
+        .remove-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 8px;
             border-radius: 8px;
-            border: none;
+            background: #fff0f0;
+            border: 1px solid #fecaca;
+            color: var(--red);
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            letter-spacing: 0.3px;
+        }
+        .remove-btn:active { background: #fee2e2; }
+
+        /* ── ADD BUTTON ── */
+        .add-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: var(--radius);
+            border: 2px dashed var(--p);
+            background: transparent;
+            color: var(--p);
             font-family: inherit;
-        }
-
-        .btn-add {
-            background-color: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .btn-add:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-download {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 15px rgba(94, 23, 235, 0.2);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(94, 23, 235, 0.3);
-        }
-
-        /* Contact & Payment */
-        .contact-payment {
-            margin-top: 50px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            padding-top: 40px;
-        }
-
-        .payment-info {
-            margin-bottom: 20px;
-        }
-
-        .payment-info p {
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        .add-btn:active { background: var(--p-light); }
+
+        /* ── TOTALS ── */
+        .totals-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            box-shadow: 0 1px 6px rgba(94,23,235,0.08);
+            margin-bottom: 16px;
         }
 
-        .qr-code {
-            width: 150px;
-            height: 150px;
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.95rem;
+        }
+        .total-row .lbl { color: var(--muted); }
+        .total-row .val { font-weight: 600; }
+        .total-row.strikethrough .val {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .savings-pill {
+            background: #ecfdf5;
+            color: var(--green);
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 8px 0;
+            display: none;
+            letter-spacing: 0.2px;
+        }
+
+        .grand-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 4px;
+            border-top: 2px solid var(--p-light);
+            margin-top: 6px;
+        }
+        .grand-total-row .lbl {
+            font-weight: 700;
+            color: var(--p);
+            font-size: 1rem;
+        }
+        .grand-total-row .val {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--p);
+        }
+
+        /* ── CONTACT ── */
+        .contact-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 1px 6px rgba(94,23,235,0.08);
+            margin-bottom: 16px;
+        }
+
+        .contact-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--p);
+            margin-bottom: 14px;
+        }
+
+        .contact-images {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .contact-img-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-img-block span {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-img-block img {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            border-radius: 12px;
             border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 10px;
-            background: white;
+            background: #fafafa;
+            padding: 6px;
         }
 
-        .whatsapp-info {
-            margin: 20px 0;
+        .wa-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 14px;
+            background: #f0fdf4;
+            color: #15803d;
+            padding: 9px 20px;
+            border-radius: 30px;
+            text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        footer {
-            margin-top: 40px;
+        .insta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            color: var(--p);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
             text-align: center;
-            padding-bottom: 40px;
+            padding: 20px 0 10px;
         }
-
-        footer p {
+        .footer p {
             font-size: 1.2rem;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
-        /* Responsive Mobile Layout */
-        @media (max-width: 768px) {
-            .row-header {
-                display: none;
-            }
-            .product-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                margin-bottom: 15px;
-                padding: 20px;
-            }
-            .product-row > * {
-                display: flex;
-                flex-direction: column;
-            }
-            .product-row > *::before {
-                content: attr(data-label);
-                font-size: 0.7rem;
-                font-weight: 700;
-                color: var(--primary);
-                margin-bottom: 4px;
-                text-transform: uppercase;
-            }
-            .product-row .product-desc { grid-column: span 2; }
-            .product-row .remove-btn { 
-                grid-column: span 2; 
-                text-align: right; 
-                border-top: 1px solid var(--border); 
-                padding-top: 10px;
-            }
-            .summary-container {
-                align-items: center;
-            }
-        }
-
-        /* Print styles */
-        #invoice-print-area {
+        /* ── EXPORT BUTTONS ── */
+        .export-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
             background: white;
-            padding: 20px;
+            border-top: 1px solid var(--border);
+            padding: 10px 16px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            box-shadow: 0 -2px 12px rgba(94,23,235,0.08);
+        }
+
+        .btn-export {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-pdf {
+            background: var(--p);
+            color: white;
+        }
+        .btn-pdf:active { opacity: 0.85; }
+
+        .btn-img {
+            background: var(--p-light);
+            color: var(--p);
+        }
+        .btn-img:active { opacity: 0.85; }
+
+        /* ── LOADING OVERLAY ── */
+        .overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(26,26,46,0.65);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .overlay.show { display: flex; }
+        .overlay-box {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 36px;
+            text-align: center;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid var(--p-light);
+            border-top-color: var(--p);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay-box p { color: var(--muted); font-size: 0.9rem; }
+        .overlay-box strong { display: block; font-size: 1rem; color: var(--ink); margin-bottom: 4px; }
+
+        /* ── PRINT / PDF TARGET ── */
+        #invoice-print {
+            background: white;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* Input number arrows hide */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { opacity: 1; }
+
+        @media (max-width: 360px) {
+            .price-row { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="invoice-content">
-        <!-- Header -->
-        <header>
-            <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">Instagram: @bhagya.tailor</a>
-            <h1>Bhagya Tailor</h1>
-            <p class="tagline">Making you Shine</p>
-        </header>
+<!-- ── HEADER ── -->
+<div class="header-wrap">
+    <div>
+        <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-badge">
+            📸 @bhagya.tailor
+        </a>
+    </div>
+    <div class="shop-name">Bhagya Tailor</div>
+    <div class="tagline">Making you Shine ✨</div>
+    <a href="https://wa.me/916371165153" class="wa-chip">📱 6371165153</a>
+</div>
 
-        <!-- WhatsApp Header -->
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600;">
-            WhatsApp: 6370874791
+<!-- ── MAIN PAGE ── -->
+<div class="page" id="invoice-print">
+
+    <!-- Products -->
+    <div class="section-title">Items</div>
+    <div id="product-list"></div>
+
+    <button class="add-btn" onclick="addRow()">＋ Add Item</button>
+
+    <!-- Totals -->
+    <div class="totals-card" id="totals-section">
+        <div class="total-row strikethrough">
+            <span class="lbl">Original Total</span>
+            <span class="val" id="total-orig">₹0.00</span>
         </div>
-
-        <!-- Row Header -->
-        <div class="row-header">
-            <div>Description</div>
-            <div>Image</div>
-            <div>Qty</div>
-            <div>Price (₹)</div>
-            <div>Disc %</div>
-            <div>Final (₹)</div>
-            <div></div>
+        <div class="savings-pill" id="savings-pill">🎉 You Saved: ₹<span id="savings-val">0</span></div>
+        <div class="grand-total-row">
+            <span class="lbl">Grand Total</span>
+            <span class="val" id="grand-total">₹0.00</span>
         </div>
-
-        <!-- Product Rows Container -->
-        <div id="product-list">
-            <!-- First Row Default -->
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-btns">
-            <button class="btn btn-add" onclick="addRow()">+ Add Product</button>
-        </div>
-
-        <!-- Summary Section -->
-        <div class="summary-container">
-            <div class="total-item">
-                <span class="total-label">Total Original:</span>
-                <span class="total-value original-total" id="total-original">₹0</span>
-            </div>
-            <div id="savings-container" class="savings-tag">
-                You Saved: ₹<span id="total-savings">0</span>
-            </div>
-            <div class="total-item">
-                <span class="total-label" style="color: var(--primary); font-weight: 700;">Grand Total:</span>
-                <span class="total-value final-total" id="grand-total">₹0</span>
-            </div>
-        </div>
-
-        <!-- Payment & Contact -->
-        <div class="contact-payment">
-            <div class="payment-info">
-                <p>Payment via QR Code</p>
-                <img src="https://github.com/Rudra-G-23/breast-cancer-prediction-app/blob/main/assets/rudra.png?raw=true" alt="Payment QR" class="qr-code">
-            </div>
-            <div class="whatsapp-info">
-                Contact: 6370874791
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>Thank You ❤️</p>
-            <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">Follow us on Instagram</a>
-        </footer>
     </div>
 
-    <!-- Sticky Export Button -->
-    <div style="text-align: center; margin: 40px 0;">
-        <button class="btn btn-download" onclick="downloadPDF()">Download as PDF</button>
+    <!-- Contact & Payment -->
+    <div class="contact-card">
+        <h3>Contact & Payment</h3>
+        <div class="contact-images">
+            <div class="contact-img-block">
+                <span>Contact</span>
+                <img src="https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/contact.jpeg" alt="Contact QR" crossorigin="anonymous">
+            </div>
+            </div>
+            <div class="contact-img-block">
+                <span>Payment QR</span>
+                <img src="https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/payment.jpeg" alt="Payment QR" crossorigin="anonymous">
+            </div>
+        </div>
+        <a href="https://wa.me/916371165153" class="wa-link">
+            💬 WhatsApp: 6371165153
+        </a>
+        <br>
+        <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">
+            📸 @bhagya.tailor
+        </a>
     </div>
 
-    <script>
-        const productList = document.getElementById('product-list');
+    <!-- Footer -->
+    <div class="footer">
+        <p>Thank You ❤️</p>
+        <a href="https://www.instagram.com/bhagya.tailor" target="_blank" class="insta-link">Follow us on Instagram</a>
+    </div>
 
-        function addRow() {
-            const rowId = Date.now();
-            const row = document.createElement('div');
-            row.className = 'product-row';
-            row.id = `row-${rowId}`;
-            row.innerHTML = `
-                <div class="product-desc" data-label="Description">
-                    <input type="text" placeholder="e.g. Silk Blouse" oninput="calculate()">
+</div>
+
+<!-- Export Bar -->
+<div style="height:70px"></div>
+<div class="export-bar">
+    <button class="btn-export btn-pdf" onclick="downloadPDF()">📄 PDF</button>
+    <button class="btn-export btn-img" onclick="downloadIMG()">🖼️ Image</button>
+</div>
+
+<!-- Loading Overlay -->
+<div class="overlay" id="overlay">
+    <div class="overlay-box">
+        <div class="spinner"></div>
+        <strong id="overlay-title">Preparing...</strong>
+        <p id="overlay-msg">Please wait a moment</p>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  BHAGYA TAILOR — BILLING APP
+//  No html2canvas. PDF & PNG built manually with
+//  jsPDF drawing API. Zero tainted-canvas issues.
+// ═══════════════════════════════════════════════
+
+let rowCount = 0;
+
+// ── ADD ROW ──
+function addRow() {
+    rowCount++;
+    const id = rowCount;
+    const div = document.createElement('div');
+    div.className = 'product-card';
+    div.id = `card-${id}`;
+    div.innerHTML = `
+        <div class="card-top">
+            <div>
+                <div class="field-label">Description</div>
+                <input type="text" class="inp" placeholder="e.g. Silk Blouse" oninput="recalcAll()">
+            </div>
+            <div>
+                <div class="img-upload-area" id="upload-${id}">
+                    <span class="upload-icon">📷</span>
+                    <span class="upload-text">Tap to add image</span>
+                    <input type="file" accept="image/*" onchange="previewImg(this, ${id})">
+                    <img class="thumb" id="thumb-${id}" alt="">
                 </div>
-                <div data-label="Image">
-                    <div class="file-input-wrapper">
-                        <span class="btn-upload">Select Image</span>
-                        <input type="file" accept="image/*" onchange="previewImage(this, '${rowId}')">
-                    </div>
-                    <img id="prev-${rowId}" class="img-preview" alt="preview">
-                </div>
-                <div data-label="Qty">
-                    <input type="number" value="1" min="1" class="qty" oninput="calculate()">
-                </div>
-                <div data-label="Original Price">
-                    <input type="number" placeholder="0" class="orig-price" oninput="calculateByOriginal('${rowId}')">
-                </div>
-                <div data-label="Discount %">
-                    <input type="number" placeholder="0" class="disc-perc" oninput="calculateByOriginal('${rowId}')">
-                </div>
-                <div data-label="Final Price">
-                    <input type="number" placeholder="0" class="final-price" oninput="calculateByFinal('${rowId}')">
-                </div>
-                <div class="remove-btn" onclick="removeRow('${rowId}')">×</div>
-            `;
-            productList.appendChild(row);
-            calculate();
+            </div>
+        </div>
+        <div class="price-row">
+            <div>
+                <div class="field-label">Qty</div>
+                <input type="number" class="inp qty" value="1" min="1" oninput="recalcRow(${id})">
+            </div>
+            <div>
+                <div class="field-label">Orig (₹)</div>
+                <input type="number" class="inp orig-price" placeholder="0" oninput="calcFromOrig(${id})">
+            </div>
+            <div>
+                <div class="field-label">Disc %</div>
+                <input type="number" class="inp disc" placeholder="0" min="0" max="100" oninput="calcFromOrig(${id})">
+            </div>
+            <div>
+                <div class="field-label">Final (₹)</div>
+                <input type="number" class="inp final-price" placeholder="0" oninput="calcFromFinal(${id})">
+            </div>
+        </div>
+        <div class="item-total-bar">
+            <span class="it-label">Item Total</span>
+            <span class="it-val" id="item-total-${id}">₹0.00</span>
+        </div>
+        <button class="remove-btn" onclick="removeRow(${id})">✕ Remove This Item</button>
+    `;
+    document.getElementById('product-list').appendChild(div);
+    recalcAll();
+}
+
+function removeRow(id) {
+    const list = document.getElementById('product-list');
+    const card = document.getElementById(`card-${id}`);
+    if (list.children.length > 1) {
+        card.remove();
+    } else {
+        card.querySelectorAll('input').forEach(i => {
+            if (i.classList.contains('qty')) i.value = 1;
+            else if (i.type !== 'file') i.value = '';
+        });
+        const thumb = document.getElementById(`thumb-${id}`);
+        if (thumb) { thumb.style.display = 'none'; thumb.src = ''; }
+        const area = document.getElementById(`upload-${id}`);
+        if (area) {
+            area.querySelector('.upload-icon').style.display = '';
+            area.querySelector('.upload-text').style.display = '';
+        }
+    }
+    recalcAll();
+}
+
+// Store product images as base64 keyed by row id
+const productImages = {};
+
+function previewImg(input, id) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const b64 = e.target.result;
+            productImages[id] = b64; // save for PDF use
+            const thumb = document.getElementById(`thumb-${id}`);
+            const area = document.getElementById(`upload-${id}`);
+            thumb.src = b64;
+            thumb.style.display = 'block';
+            area.querySelector('.upload-icon').style.display = 'none';
+            area.querySelector('.upload-text').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function getCard(id) { return document.getElementById(`card-${id}`); }
+
+function calcFromOrig(id) {
+    const c = getCard(id);
+    const orig = parseFloat(c.querySelector('.orig-price').value) || 0;
+    const disc = parseFloat(c.querySelector('.disc').value) || 0;
+    c.querySelector('.final-price').value = (orig - orig * disc / 100).toFixed(2);
+    recalcRow(id);
+}
+
+function calcFromFinal(id) {
+    const c = getCard(id);
+    const final = parseFloat(c.querySelector('.final-price').value) || 0;
+    const disc = parseFloat(c.querySelector('.disc').value) || 0;
+    const origInput = c.querySelector('.orig-price');
+    if (disc < 100) origInput.value = (final / (1 - disc / 100)).toFixed(2);
+    else origInput.value = '';
+    recalcRow(id);
+}
+
+function recalcRow(id) {
+    const c = getCard(id);
+    const qty = parseFloat(c.querySelector('.qty').value) || 0;
+    const final = parseFloat(c.querySelector('.final-price').value) || 0;
+    const el = document.getElementById(`item-total-${id}`);
+    if (el) el.textContent = (qty * final).toFixed(2);
+    recalcAll();
+}
+
+function recalcAll() {
+    let totOrig = 0, totFinal = 0;
+    document.querySelectorAll('.product-card').forEach(c => {
+        const qty   = parseFloat(c.querySelector('.qty').value) || 0;
+        const orig  = parseFloat(c.querySelector('.orig-price').value) || 0;
+        const final = parseFloat(c.querySelector('.final-price').value) || 0;
+        totOrig  += orig  * qty;
+        totFinal += final * qty;
+    });
+    const savings = totOrig - totFinal;
+    document.getElementById('total-orig').textContent  = totOrig.toFixed(2);
+    document.getElementById('grand-total').textContent = totFinal.toFixed(2);
+    const pill = document.getElementById('savings-pill');
+    if (savings >= 10 && totOrig > 0) {
+        pill.style.display = 'block';
+        document.getElementById('savings-val').textContent = savings.toFixed(2);
+    } else {
+        pill.style.display = 'none';
+    }
+}
+
+// ── OVERLAY ──
+function showOverlay(title, msg) {
+    document.getElementById('overlay-title').textContent = title;
+    document.getElementById('overlay-msg').textContent   = msg;
+    document.getElementById('overlay').classList.add('show');
+}
+function hideOverlay() { document.getElementById('overlay').classList.remove('show'); }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ══════════════════════════════════════════
+//  MANUAL PDF BUILDER — no html2canvas at all
+// ══════════════════════════════════════════
+function buildInvoiceData() {
+    const rows = [];
+    document.querySelectorAll('.product-card').forEach((c, idx) => {
+        const id    = c.id.replace('card-', '');
+        const desc  = c.querySelector('input[type=text]').value.trim() || ('Item ' + (idx+1));
+        const qty   = parseFloat(c.querySelector('.qty').value) || 0;
+        const orig  = parseFloat(c.querySelector('.orig-price').value) || 0;
+        const disc  = parseFloat(c.querySelector('.disc').value) || 0;
+        const final = parseFloat(c.querySelector('.final-price').value) || 0;
+        const img   = productImages[id] || null;
+        rows.push({ desc, qty, orig, disc, final, img });
+    });
+
+    let totOrig = 0, totFinal = 0;
+    rows.forEach(r => { totOrig += r.orig * r.qty; totFinal += r.final * r.qty; });
+
+    return { rows, totOrig, totFinal, savings: totOrig - totFinal };
+}
+
+async function generatePDFDoc() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210; // A4 width mm
+    const margin = 12;
+    const contentW = W - margin * 2;
+    let y = 0;
+
+    // ── Helpers ──
+    const purple = [94, 23, 235];
+    const purpleLight = [237, 232, 255];
+    const ink    = [26, 26, 46];
+    const muted  = [107, 114, 128];
+    const border = [229, 231, 235];
+    const green  = [5, 150, 105];
+    const red    = [239, 68, 68];
+    const white  = [255, 255, 255];
+
+    function setColor(rgb, fill=true) {
+        if (fill) pdf.setFillColor(...rgb);
+        else pdf.setTextColor(...rgb);
+    }
+    function line(x1,y1,x2,y2,rgb=[229,231,235]) {
+        pdf.setDrawColor(...rgb);
+        pdf.line(x1,y1,x2,y2);
+    }
+    function rect(x,y,w,h,rgb,rounded=0) {
+        pdf.setFillColor(...rgb);
+        if (rounded) pdf.roundedRect(x,y,w,h,rounded,rounded,'F');
+        else pdf.rect(x,y,w,h,'F');
+    }
+    function text(str, x, yy, size, rgb, align='left', style='normal') {
+        pdf.setFontSize(size);
+        pdf.setFont('helvetica', style);
+        pdf.setTextColor(...rgb);
+        pdf.text(str, x, yy, { align });
+    }
+    function checkPage(needed=20) {
+        if (y + needed > 285) { pdf.addPage(); y = 12; }
+    }
+
+    // ── HEADER ──
+    rect(0, 0, W, 44, purple);
+    // decorative circles
+    pdf.setFillColor(255,255,255,0.07);
+    pdf.circle(W - 20, 10, 22, 'F');
+    pdf.circle(18, 36, 16, 'F');
+
+    text('Bhagya Tailor', W/2, 16, 22, white, 'center', 'bold');
+    text('Making you Shine', W/2, 24, 10, [220, 200, 255], 'center', 'normal');
+    text('Instagram: @bhagya.tailor', W/2, 31, 8, [200, 180, 255], 'center', 'normal');
+    text('WhatsApp: 6371165153', W/2, 38, 8, [200, 180, 255], 'center', 'normal');
+    y = 50;
+
+    // ── ITEMS ──
+    const data = buildInvoiceData();
+
+    // Table header
+    rect(margin, y, contentW, 8, purpleLight);
+    const cols = { desc: margin+2, qty: margin+72, orig: margin+90, disc: margin+115, final: margin+138, total: margin+162 };
+    const hdr = [['Description', cols.desc], ['Qty', cols.qty], ['Orig', cols.orig], ['Disc%', cols.disc], ['Final', cols.final], ['Total', cols.total]];
+    hdr.forEach(([lbl, x]) => text(lbl, x, y+5.5, 7, purple, 'left', 'bold'));
+    y += 10;
+
+    // Rows
+    for (let i = 0; i < data.rows.length; i++) {
+        const r = data.rows[i];
+        const itemTotal = (r.qty * r.final).toFixed(2);
+        const hasImg = !!r.img;
+        const rowH = hasImg ? 28 : 14;
+
+        checkPage(rowH + 4);
+
+        // Alternating row bg
+        if (i % 2 === 0) rect(margin, y, contentW, rowH, [249, 247, 255]);
+        else rect(margin, y, contentW, rowH, white);
+
+        if (hasImg) {
+            // Image on left
+            try {
+                pdf.addImage(r.img, 'JPEG', margin+1, y+2, 18, 18);
+            } catch(e) {}
+            // Description below image label
+            text(r.desc, margin+21, y+8, 8, ink, 'left', 'bold');
+        } else {
+            text(r.desc, cols.desc, y+8, 8, ink, 'left', 'normal');
         }
 
-        function removeRow(id) {
-            const row = document.getElementById(`row-${id}`);
-            if (productList.children.length > 1) {
-                row.remove();
-                calculate();
-            } else {
-                // Just clear values if it's the last row
-                row.querySelectorAll('input').forEach(i => i.value = i.type === 'number' ? (i.className === 'qty' ? 1 : 0) : '');
-                const img = document.getElementById(`prev-${id}`);
-                img.style.display = 'none';
-                calculate();
-            }
+        text(String(r.qty),           cols.qty,   y+8, 8, ink);
+        text(r.orig.toFixed(0), cols.orig,  y+8, 8, muted);
+        text(r.disc > 0 ? r.disc+'%' : '-', cols.disc, y+8, 8, r.disc>0 ? [239,68,68] : muted);
+        text(r.final.toFixed(0),cols.final, y+8, 8, ink);
+        text(itemTotal,          cols.total, y+8, 8, purple, 'left', 'bold');
+
+        // Bottom border
+        line(margin, y+rowH, margin+contentW, y+rowH, border);
+        y += rowH + 2;
+    }
+
+    y += 4;
+    checkPage(40);
+
+    // ── TOTALS BOX ──
+    rect(margin, y, contentW, data.savings >= 10 ? 34 : 26, [249, 247, 255], 3);
+
+    // Original total (strikethrough effect — draw line manually)
+    text('Original Total:', margin+4, y+8, 9, muted);
+    const origStr = 'Rs.' + data.totOrig.toFixed(2);
+    text(origStr, margin+contentW-4, y+8, 9, muted, 'right');
+    // manual strikethrough
+    const origW = pdf.getTextWidth(origStr);
+    line(margin+contentW-4-origW, y+5.5, margin+contentW-4, y+5.5, muted);
+
+    if (data.savings >= 10) {
+        rect(margin+4, y+11, contentW-8, 8, [236, 253, 245], 2);
+        text('You Saved: Rs.' + data.savings.toFixed(2), W/2, y+16.5, 9, green, 'center', 'bold');
+        y += 9;
+    }
+
+    // Grand total
+    line(margin, y+17, margin+contentW, y+17, purple);
+    text('Grand Total:', margin+4, y+25, 12, purple, 'left', 'bold');
+    text('Rs.' + data.totFinal.toFixed(2), margin+contentW-4, y+25, 14, purple, 'right', 'bold');
+    y += 36;
+
+    checkPage(60);
+
+    // ── PAYMENT & CONTACT QR ──
+    rect(margin, y, contentW, 6, purpleLight);
+    text('Payment & Contact', W/2, y+4.2, 9, purple, 'center', 'bold');
+    y += 8;
+
+    const qrSize = 45;
+    const qrY = y;
+
+    if (ASSETS.contact) {
+        try {
+            pdf.addImage(ASSETS.contact, 'JPEG', margin + 20, qrY, qrSize, qrSize);
+            text('Contact', margin+20+qrSize/2, qrY+qrSize+5, 7, muted, 'center');
+        } catch(e) {}
+    }
+    if (ASSETS.payment) {
+        try {
+            pdf.addImage(ASSETS.payment, 'JPEG', W/2 + 10, qrY, qrSize, qrSize);
+            text('Scan to Pay', W/2+10+qrSize/2, qrY+qrSize+5, 7, muted, 'center');
+        } catch(e) {}
+    }
+    y = qrY + qrSize + 12;
+
+    text('WhatsApp: 6371165153', W/2, y, 9, [21, 128, 61], 'center', 'bold');
+    y += 6;
+    text('instagram.com/bhagya.tailor', W/2, y, 8, purple, 'center');
+    y += 10;
+
+    // ── FOOTER ──
+    line(margin, y, margin+contentW, y, border);
+    y += 6;
+    text('Thank You! ❤', W/2, y, 11, purple, 'center', 'bold');
+
+    return pdf;
+}
+
+// ── DOWNLOAD PDF ──
+async function downloadPDF() {
+    showOverlay('Generating PDF…', 'Building your invoice…');
+    await sleep(80);
+    try {
+        const pdf = await generatePDFDoc();
+        pdf.save('BhagyaTailor_Invoice.pdf');
+    } catch(e) {
+        alert('PDF error: ' + e.message);
+        console.error(e);
+    }
+    hideOverlay();
+}
+
+// ── DOWNLOAD IMAGE (PNG) ──
+// Draws the invoice directly onto a <canvas> — same logic as PDF, zero conversion tricks
+async function downloadIMG() {
+    showOverlay('Generating Image…', 'Drawing your invoice…');
+    await sleep(80);
+    try {
+        const canvas = await drawInvoiceToCanvas();
+        const link = document.createElement('a');
+        link.download = 'BhagyaTailor_Invoice.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch(e) {
+        alert('Image error: ' + e.message);
+        console.error(e);
+    }
+    hideOverlay();
+}
+
+// ── DRAW INVOICE TO CANVAS ──
+async function drawInvoiceToCanvas() {
+    const S   = 3;            // px per mm (3× = high-res)
+    const PW  = 210 * S;      // canvas width
+    const PAD = 14 * S;
+    const CW  = PW - PAD * 2;
+
+    const data = buildInvoiceData();
+
+    // ── Load image helper (blob URL → HTMLImageElement) ──
+    function waitImg(src) {
+        return new Promise(resolve => {
+            if (!src) return resolve(null);
+            const img = new Image();
+            img.onload  = () => resolve(img);
+            img.onerror = () => resolve(null);
+            img.src = src;
+        });
+    }
+
+    // Fetch local asset → blob URL → img element (avoids any taint issue)
+    async function fetchLocalImg(path) {
+        try {
+            const res = await fetch(path + '?cb=' + Date.now());
+            if (!res.ok) return null;
+            const blob = URL.createObjectURL(await res.blob());
+            return await waitImg(blob);
+        } catch { return null; }
+    }
+
+    // Load QR images fresh via fetch
+    const [payEl, conEl] = await Promise.all([
+        fetchLocalImg('https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/payment.jpeg'),
+        fetchLocalImg('https://raw.githubusercontent.com/Rudra-G-23/billing-app/main/assets/contact.jpeg'),
+    ]);
+
+    // Load product images (already base64 in memory)
+    const cards = [...document.querySelectorAll('.product-card')];
+    const rowImgs = await Promise.all(cards.map(c => {
+        const id = c.id.replace('card-', '');
+        return waitImg(productImages[id] || null);
+    }));
+
+    // ── Calculate total canvas height ──
+    const HDR  = 52 * S;
+    const TBLH =  9 * S;
+    const ROWH = 16 * S;
+    const RIMH = 32 * S;
+    const hasSav = data.savings >= 10;
+    const TOTH = (hasSav ? 46 : 34) * S;
+    const QRH  = 72 * S;
+    const FTRH = 24 * S;
+
+    let totalH = HDR + 8*S + TBLH;
+    cards.forEach((_,i) => { totalH += (rowImgs[i] ? RIMH : ROWH) + 2*S; });
+    totalH += 6*S + TOTH + 10*S + QRH + FTRH + 16*S;
+
+    // ── Create canvas ──
+    const cv  = document.createElement('canvas');
+    cv.width  = PW;
+    cv.height = totalH;
+    const ctx = cv.getContext('2d');
+
+    // ════ WHITE BACKGROUND — always first ════
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, PW, totalH);
+
+    // ── Drawing helpers ──
+    function box(x, y, w, h, fill, rad=0) {
+        ctx.fillStyle = fill;
+        ctx.beginPath();
+        if (rad && ctx.roundRect) ctx.roundRect(x,y,w,h,rad);
+        else ctx.rect(x,y,w,h);
+        ctx.fill();
+    }
+    function ln(x1,y1,x2,y2,stroke,lw=1) {
+        ctx.save();
+        ctx.strokeStyle = stroke; ctx.lineWidth = lw;
+        ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+        ctx.restore();
+    }
+    function t(str, x, y, px, fill, align='left', w='400') {
+        ctx.save();
+        ctx.font = `${w} ${px}px Arial,sans-serif`;
+        ctx.fillStyle = fill;
+        ctx.textAlign = align;
+        ctx.textBaseline = 'middle';
+        ctx.fillText(String(str), x, y);
+        ctx.restore();
+    }
+    function tw(str, px, w='400') {
+        ctx.save();
+        ctx.font = `${w} ${px}px Arial,sans-serif`;
+        const m = ctx.measureText(String(str)).width;
+        ctx.restore();
+        return m;
+    }
+    function drawImgBox(el, x, y, w, h) {
+        if (!el) return;
+        ctx.save();
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(x,y,w,h,3*S); else ctx.rect(x,y,w,h);
+        ctx.clip();
+        // maintain aspect ratio
+        const ar = el.naturalWidth / el.naturalHeight;
+        let dw=w, dh=h;
+        if (ar>1) dh=w/ar; else dw=h*ar;
+        ctx.drawImage(el, x+(w-dw)/2, y+(h-dh)/2, dw, dh);
+        ctx.restore();
+    }
+
+    let y = 0;
+
+    // ════════════════════════════════════════
+    //  HEADER — purple gradient
+    // ════════════════════════════════════════
+    const g = ctx.createLinearGradient(0,0,PW,HDR);
+    g.addColorStop(0,'#5e17eb'); g.addColorStop(0.6,'#7c3aed'); g.addColorStop(1,'#a855f7');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, PW, HDR);
+
+    ctx.fillStyle='rgba(255,255,255,0.07)';
+    ctx.beginPath(); ctx.arc(PW-20*S,14*S,22*S,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(18*S,42*S,14*S,0,Math.PI*2); ctx.fill();
+
+    t('Bhagya Tailor',        PW/2, y+17*S, 15*S, '#ffffff',             'center','700');
+    t('Making you Shine',     PW/2, y+27*S,  7*S, 'rgba(230,215,255,1)', 'center','300');
+    t('@bhagya.tailor',       PW/2, y+35*S,  6*S, 'rgba(210,195,255,1)', 'center','400');
+    t('WhatsApp: 6371165153', PW/2, y+43*S,  6*S, 'rgba(210,195,255,1)', 'center','400');
+    y += HDR;
+
+    // soft purple gap
+    ctx.fillStyle = '#f4f0ff';
+    ctx.fillRect(0, y, PW, 8*S);
+    y += 8*S;
+
+    // ════════════════════════════════════════
+    //  TABLE HEADER
+    // ════════════════════════════════════════
+    box(PAD, y, CW, TBLH, '#ede8ff', 4*S);
+
+    // Column centres (proportional)
+    const cx = {
+        desc:  PAD + 2*S,          // left-aligned
+        qty:   PAD + CW*0.43,
+        orig:  PAD + CW*0.55,
+        disc:  PAD + CW*0.67,
+        fin:   PAD + CW*0.79,
+        tot:   PAD + CW*0.91,
+    };
+    const FS = 5.5*S;
+    const PU='#5e17eb', INK='#1a1a2e', MU='#6b7280', GR='#059669', RE='#ef4444', BO='#e5e7eb';
+
+    const hY = y + TBLH/2;
+    t('Description',cx.desc,hY,FS,PU,'left','700');
+    t('Qty',  cx.qty, hY,FS,PU,'center','700');
+    t('Orig', cx.orig,hY,FS,PU,'center','700');
+    t('Disc%',cx.disc,hY,FS,PU,'center','700');
+    t('Final',cx.fin, hY,FS,PU,'center','700');
+    t('Total',cx.tot, hY,FS,PU,'center','700');
+    y += TBLH;
+
+    // ════════════════════════════════════════
+    //  ITEM ROWS
+    // ════════════════════════════════════════
+    data.rows.forEach((r, i) => {
+        const imgEl = rowImgs[i];
+        const rH    = imgEl ? RIMH : ROWH;
+        box(PAD, y, CW, rH, i%2===0 ? '#f9f7ff' : '#ffffff');
+        ln(PAD, y+rH, PAD+CW, y+rH, BO);
+
+        const ry = y + rH/2;
+        if (imgEl) {
+            drawImgBox(imgEl, PAD+2*S, y+(rH-24*S)/2, 24*S, 24*S);
+            t(r.desc||'-', PAD+28*S, ry, FS, INK, 'left','600');
+        } else {
+            t(r.desc||'-', cx.desc, ry, FS, INK, 'left','400');
         }
+        t(String(r.qty),              cx.qty,  ry, FS, INK, 'center','400');
+        t(+r.orig.toFixed(0),    cx.orig, ry, FS, MU,  'center','400');
+        t(r.disc>0?r.disc+'%':'-',    cx.disc, ry, FS, r.disc>0?RE:MU,'center','600');
+        t(r.final.toFixed(0),   cx.fin,  ry, FS, INK, 'center','400');
+        t((r.qty*r.final).toFixed(2), cx.tot, ry, FS, PU,'center','700');
 
-        function previewImage(input, id) {
-            const preview = document.getElementById(`prev-${id}`);
-            const uploadBtn = input.previousElementSibling;
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    uploadBtn.style.display = 'none';
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        y += rH + 2*S;
+    });
 
-        function calculateByOriginal(id) {
-            const row = document.getElementById(`row-${id}`);
-            const orig = parseFloat(row.querySelector('.orig-price').value) || 0;
-            const disc = parseFloat(row.querySelector('.disc-perc').value) || 0;
-            const finalInput = row.querySelector('.final-price');
-            
-            const finalVal = orig - (orig * (disc / 100));
-            finalInput.value = finalVal.toFixed(2);
-            calculate();
-        }
+    y += 6*S;
 
-        function calculateByFinal(id) {
-            const row = document.getElementById(`row-${id}`);
-            const final = parseFloat(row.querySelector('.final-price').value) || 0;
-            const disc = parseFloat(row.querySelector('.disc-perc').value) || 0;
-            const origInput = row.querySelector('.orig-price');
-            
-            if (disc < 100) {
-                const origVal = final / (1 - (disc / 100));
-                origInput.value = origVal.toFixed(2);
-            }
-            calculate();
-        }
+    // ════════════════════════════════════════
+    //  TOTALS CARD
+    // ════════════════════════════════════════
+    box(PAD, y, CW, TOTH, '#f9f7ff', 4*S);
+    ln(PAD, y, PAD+CW, y, '#ede8ff', 2);
 
-        function calculate() {
-            let totalOrig = 0;
-            let totalFinal = 0;
+    // Original (strikethrough)
+    const oStr = 'Rs.' + data.totOrig.toFixed(2);
+    t('Original Total:', PAD+5*S, y+10*S, 6*S, MU, 'left','400');
+    t(oStr, PAD+CW-5*S, y+10*S, 6*S, MU, 'right','400');
+    const oW = tw(oStr, 6*S,'400');
+    ln(PAD+CW-5*S-oW, y+9*S, PAD+CW-5*S, y+9*S, MU, 1.5);
 
-            const rows = document.querySelectorAll('.product-row');
-            rows.forEach(row => {
-                const qty = parseFloat(row.querySelector('.qty').value) || 0;
-                const orig = parseFloat(row.querySelector('.orig-price').value) || 0;
-                const final = parseFloat(row.querySelector('.final-price').value) || 0;
+    if (hasSav) {
+        box(PAD+5*S, y+16*S, CW-10*S, 11*S, '#ecfdf5', 3*S);
+        t('You Saved: Rs.'+data.savings.toFixed(2), PW/2, y+21.5*S, 7*S, GR,'center','700');
+        ln(PAD+5*S, y+32*S, PAD+CW-5*S, y+32*S, PU, 1.5);
+        t('Grand Total:',              PAD+5*S,    y+42*S, 8*S,  PU,'left','700');
+        t('Rs.'+data.totFinal.toFixed(2), PAD+CW-5*S, y+42*S, 11*S, PU,'right','700');
+    } else {
+        ln(PAD+5*S, y+18*S, PAD+CW-5*S, y+18*S, PU, 1.5);
+        t('Grand Total:',              PAD+5*S,    y+28*S, 8*S,  PU,'left','700');
+        t('Rs.'+data.totFinal.toFixed(2), PAD+CW-5*S, y+28*S, 11*S, PU,'right','700');
+    }
+    y += TOTH + 10*S;
 
-                totalOrig += (orig * qty);
-                totalFinal += (final * qty);
-            });
+    // ════════════════════════════════════════
+    //  PAYMENT & CONTACT SECTION
+    // ════════════════════════════════════════
+    box(PAD, y, CW, 10*S, '#ede8ff', 4*S);
+    t('Payment & Contact', PW/2, y+5*S, 7*S, PU,'center','700');
+    y += 14*S;
 
-            const savings = totalOrig - totalFinal;
+    // White card
+    box(PAD, y, CW, QRH, '#ffffff', 4*S);
+    ln(PAD, y, PAD+CW, y, BO, 1);
+    ln(PAD, y+QRH, PAD+CW, y+QRH, BO, 1);
 
-            document.getElementById('total-original').innerText = `₹${totalOrig.toFixed(2)}`;
-            document.getElementById('grand-total').innerText = `₹${totalFinal.toFixed(2)}`;
-            
-            const savingsContainer = document.getElementById('savings-container');
-            if (savings >= 50) {
-                savingsContainer.style.display = 'inline-block';
-                document.getElementById('total-savings').innerText = savings.toFixed(2);
-            } else {
-                savingsContainer.style.display = 'none';
-            }
-        }
+    const QR   = 46*S;
+    const qrTop = y + 6*S;
+    const cqX  = PAD + CW/4 - QR/2;
+    const pqX  = PAD + 3*CW/4 - QR/2;
 
-        async function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const element = document.getElementById('invoice-content');
-            
-            // Temporary styling for PDF export to ensure it looks clean
-            const originalWidth = element.style.width;
-            element.style.width = '800px';
-            
-            const canvas = await html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false
-            });
-            
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`Bhagya_Tailor_Invoice_${Date.now()}.pdf`);
-            
-            element.style.width = originalWidth;
-        }
+    // Contact QR
+    box(cqX-2*S, qrTop-2*S, QR+4*S, QR+4*S, '#f4f0ff', 3*S);
+    if (conEl) drawImgBox(conEl, cqX, qrTop, QR, QR);
+    else { box(cqX,qrTop,QR,QR,'#ede8ff',3*S); t('Contact QR',cqX+QR/2,qrTop+QR/2,5*S,MU,'center'); }
+    t('Contact (Bhagya Lata Bhuyan)',     cqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
 
-        // Initialize with one row
-        window.onload = addRow;
-    </script>
+    // Payment QR
+    box(pqX-2*S, qrTop-2*S, QR+4*S, QR+4*S, '#f4f0ff', 3*S);
+    if (payEl) drawImgBox(payEl, pqX, qrTop, QR, QR);
+    else { box(pqX,qrTop,QR,QR,'#ede8ff',3*S); t('Payment QR',pqX+QR/2,qrTop+QR/2,5*S,MU,'center'); }
+    t('Scan to Pay (Prabhat Bhuyan)', pqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
+
+    y += QRH + 8*S;
+
+    t('WhatsApp: 6371165153',         PW/2, y,      7*S, '#15803d','center','700');
+    y += 9*S;
+    t('instagram.com/bhagya.tailor',  PW/2, y,      6*S, PU,      'center','400');
+    y += 12*S;
+
+    // ── FOOTER ──
+    ln(PAD, y, PAD+CW, y, BO, 1);
+    y += 8*S;
+    t('Thank You! ❤', PW/2, y, 9*S, PU, 'center','700');
+
+    return cv;
+}
+
+// ── INIT ──
+window.onload = () => { addRow(); };
+</script>
 </body>
 </html>
