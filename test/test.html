@@ -1204,13 +1204,13 @@ async function drawInvoiceToCanvas() {
     box(cqX-2*S, qrTop-2*S, QR+4*S, QR+4*S, '#f4f0ff', 3*S);
     if (conEl) drawImgBox(conEl, cqX, qrTop, QR, QR);
     else { box(cqX,qrTop,QR,QR,'#ede8ff',3*S); t('Contact QR',cqX+QR/2,qrTop+QR/2,5*S,MU,'center'); }
-    t('Contact',     cqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
+    t('Contact (Bhagya Lata Bhuyan)',     cqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
 
     // Payment QR
     box(pqX-2*S, qrTop-2*S, QR+4*S, QR+4*S, '#f4f0ff', 3*S);
     if (payEl) drawImgBox(payEl, pqX, qrTop, QR, QR);
     else { box(pqX,qrTop,QR,QR,'#ede8ff',3*S); t('Payment QR',pqX+QR/2,qrTop+QR/2,5*S,MU,'center'); }
-    t('Scan to Pay', pqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
+    t('Scan to Pay (Prabhat Bhuyan)', pqX+QR/2, qrTop+QR+7*S, 6*S, MU,'center','400');
 
     y += QRH + 8*S;
 
